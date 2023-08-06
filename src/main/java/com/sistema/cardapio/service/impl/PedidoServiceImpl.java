@@ -1,7 +1,6 @@
 package com.sistema.cardapio.service.impl;
 
-import com.sistema.cardapio.dto.PedidoDto;
-import com.sistema.cardapio.dto.PedidosDto;
+import com.sistema.cardapio.dto.*;
 import com.sistema.cardapio.model.ItemPedido;
 import com.sistema.cardapio.model.Pedido;
 import com.sistema.cardapio.repository.MesaRepository;
@@ -56,5 +55,46 @@ public class PedidoServiceImpl implements PedidoService {
         }
 
         return pedidosDtos;
+    }
+
+    @Override
+    public PedidoMesaDto buscarPedidoMesa(int mesa) {
+        List<Pedido> pedidos = pedidoRepository.buscarPedidoMesa(mesa);
+
+        return retornaPedidos(pedidos);
+    }
+
+    @Override
+    public PedidoMesaDto buscarPedidoCPF(String cpf) {
+        List<Pedido> pedidos = pedidoRepository.buscarPedidoCPF(cpf);
+
+        return retornaPedidos(pedidos);
+    }
+
+    private PedidoMesaDto retornaPedidos(List<Pedido> pedidos) {
+        PedidoMesaDto pedidoMesaDto = new PedidoMesaDto();
+        double valor = 0;
+
+        for (Pedido pedido: pedidos) {
+            List<ItemPedido> itens = itemPedidoService.itemPedidoPorPedido(pedido.getId());
+            List<ItemPedidoDto> itensPedidoDto = new ArrayList<>();
+
+            for (ItemPedido item : itens) {
+                ItemPedidoDto itemPedidoDto = new ItemPedidoDto();
+                itemPedidoDto.setPedido_id(item.getId_pedido());
+                itemPedidoDto.setNome(item.getProduto().getNome());
+                itemPedidoDto.setQtde(item.getQtde());
+                itemPedidoDto.setValor(item.getTotal());
+
+                itensPedidoDto.add(itemPedidoDto);
+                valor = valor + item.getTotal();
+            }
+
+            pedidoMesaDto.setItensDto(itensPedidoDto);
+            pedidoMesaDto.setTotal(valor);
+            pedidoMesaDto.setCpf(pedidos.get(0).getConta().getCPF());
+        }
+
+        return pedidoMesaDto;
     }
 }

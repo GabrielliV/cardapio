@@ -2,7 +2,6 @@ package com.sistema.cardapio.controller;
 
 import com.sistema.cardapio.model.Produto;
 import com.sistema.cardapio.service.ProdutoService;
-import com.sistema.cardapio.service.impl.ProdutoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +21,14 @@ public class ProdutoController {
         this.produtoService = produtoService;
     }
 
-    @GetMapping("{id_categoria}")
+    @GetMapping("/categoria/{id_categoria}")
     public List<Produto> produtosPorCategoria(@PathVariable int id_categoria) {
         return produtoService.produtosPorCategoria(id_categoria);
     }
+
+    @GetMapping("/produto/{id}")
+    public Produto produto(@PathVariable int id) {
+        return produtoService.produto(id);
+    }
+
 }

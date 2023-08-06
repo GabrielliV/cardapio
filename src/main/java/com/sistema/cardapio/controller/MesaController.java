@@ -25,7 +25,7 @@ public class MesaController {
                 estabelecimento.getLogin(), estabelecimento.getIdentificador(), mesa);
     }
 
-    @GetMapping("listar/{estabelecimentoId}")
+    @GetMapping("/listar/{estabelecimentoId}")
     public List<MesasDto> listaMesas(@PathVariable int estabelecimentoId) {
         return mesaService.mesas(estabelecimentoId);
     }

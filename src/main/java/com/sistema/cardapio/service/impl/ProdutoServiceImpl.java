@@ -22,4 +22,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     public List<Produto> produtosPorCategoria(int id_categoria) {
         return produtoRepository.findProdutosByCategoriaId(id_categoria);
     }
+
+    @Override
+    public Produto produto(int id) {
+        return produtoRepository.getProdutosById(id);
+    }
 }

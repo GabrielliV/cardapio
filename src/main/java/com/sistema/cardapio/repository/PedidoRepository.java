@@ -1,5 +1,6 @@
 package com.sistema.cardapio.repository;
 
+import com.sistema.cardapio.dto.RelatorioPedidoDto;
 import com.sistema.cardapio.model.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,17 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
             "WHERE e.id = :estabelecimento AND p.hora_entrega is null " +
             " ORDER BY p.hora_pedido ASC")
     List<Pedido> buscarPedidosEstabelecimento(@Param("estabelecimento") int estabelecimento);
+
+    @Query("SELECT p FROM Pedido p " +
+            "JOIN p.conta c " +
+            "JOIN c.mesa m " +
+            "WHERE m.mesa = :mesa AND c.status = true " +
+            "ORDER BY p.hora_pedido ASC")
+    List<Pedido> buscarPedidoMesa(@Param("mesa") int mesa);
+
+    @Query("SELECT p FROM Pedido p " +
+            "JOIN p.conta c " +
+            "WHERE c.CPF = :cpf AND c.status = true " +
+            "ORDER BY p.hora_pedido ASC")
+    List<Pedido> buscarPedidoCPF(@Param("cpf") String cpf);
 }
