@@ -16,7 +16,7 @@ public class Conta {
     private int id;
     private boolean status;
     private double total;
-    private String CPF;
+    private String cod;
     @ManyToOne
     @JoinColumn(name = "id_mesa")
     private Mesa mesa;

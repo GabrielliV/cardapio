@@ -65,8 +65,8 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public PedidoMesaDto buscarPedidoCPF(String cpf) {
-        List<Pedido> pedidos = pedidoRepository.buscarPedidoCPF(cpf);
+    public PedidoMesaDto buscarPedidoCod(String cod) {
+        List<Pedido> pedidos = pedidoRepository.buscarPedidoCod(cod);
 
         return retornaPedidos(pedidos);
     }
@@ -92,7 +92,7 @@ public class PedidoServiceImpl implements PedidoService {
 
             pedidoMesaDto.setItensDto(itensPedidoDto);
             pedidoMesaDto.setTotal(valor);
-            pedidoMesaDto.setCpf(pedidos.get(0).getConta().getCPF());
+            pedidoMesaDto.setCod(pedidos.get(0).getConta().getCod());
         }
 
         return pedidoMesaDto;

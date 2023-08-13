@@ -20,7 +20,8 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public List<Produto> produtosPorCategoria(int id_categoria) {
-        return produtoRepository.findProdutosByCategoriaId(id_categoria);
+        boolean ativo = true;
+        return produtoRepository.findProdutosByCategoriaIdAndAtivo(id_categoria, ativo);
     }
 
     @Override

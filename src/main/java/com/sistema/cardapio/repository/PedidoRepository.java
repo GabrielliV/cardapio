@@ -31,7 +31,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
     @Query("SELECT p FROM Pedido p " +
             "JOIN p.conta c " +
-            "WHERE c.CPF = :cpf AND c.status = true " +
+            "WHERE c.cod = :cod AND c.status = true " +
             "ORDER BY p.hora_pedido ASC")
-    List<Pedido> buscarPedidoCPF(@Param("cpf") String cpf);
+    List<Pedido> buscarPedidoCod(@Param("cod") String cod);
 }

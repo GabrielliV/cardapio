@@ -33,9 +33,9 @@ public class PedidoController {
         return pedidoService.buscarPedidoMesa(mesa);
     }
 
-    @GetMapping("/cpf/{cpf}")
-    public PedidoMesaDto listarPedidosMesa(@PathVariable String cpf) {
-        return pedidoService.buscarPedidoCPF(cpf);
+    @GetMapping("/cod/{cod}")
+    public PedidoMesaDto listarPedidosCod(@PathVariable String cod) {
+        return pedidoService.buscarPedidoCod(cod);
     }
 
 }

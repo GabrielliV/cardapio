@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PedidoMesaDto {
-    private double total;
-    private String cod;
-    List<ItemPedidoDto> itensDto;
+public class PedidoItemDto {
+    int id_produto;
+    int qtde;
 }

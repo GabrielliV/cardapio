@@ -14,6 +14,6 @@ public interface PedidoService {
 
     PedidoMesaDto buscarPedidoMesa(int mesa);
 
-    PedidoMesaDto buscarPedidoCPF(String cpf);
+    PedidoMesaDto buscarPedidoCod(String cod);
 
 }
