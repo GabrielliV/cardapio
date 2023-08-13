@@ -14,4 +14,12 @@ public interface ContaRepository extends JpaRepository<Conta, Integer> {
     Conta getContaByMesaId(int mesa);
 
     Conta getContaByMesa_IdAndStatus(int mesaId, boolean status);
+
+    @Query("SELECT p FROM Pedido p " +
+            "JOIN p.conta c " +
+            "WHERE c.cod = :cod AND c.status = true " +
+            "ORDER BY p.hora_pedido ASC")
+    List<Pedido> buscarPedidoCod(@Param("cod") String cod);
+
+    Conta getContaByCodAndMesa_Id(String cod, int mesaId);
 }

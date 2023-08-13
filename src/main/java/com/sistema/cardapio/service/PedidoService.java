@@ -1,9 +1,6 @@
 package com.sistema.cardapio.service;
 
-import com.sistema.cardapio.dto.PedidoDto;
-import com.sistema.cardapio.dto.PedidoMesaDto;
-import com.sistema.cardapio.dto.PedidosDto;
-import com.sistema.cardapio.dto.RelatorioPedidoDto;
+import com.sistema.cardapio.dto.*;
 
 import java.util.List;
 
@@ -15,5 +12,7 @@ public interface PedidoService {
     PedidoMesaDto buscarPedidoMesa(int mesa);
 
     PedidoMesaDto buscarPedidoCod(String cod);
+
+    void finalizaPedido(PedidoCarrinhoDto pedidoCarrinhoDto);
 
 }

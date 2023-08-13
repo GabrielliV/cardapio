@@ -11,4 +11,6 @@ public interface MesaRepository extends JpaRepository<Mesa, Integer> {
     Mesa getMesaByEstabelecimentoIdAndMesa(int estabelecimentoId, int mesa);
 
     List<Mesa> getMesaByEstabelecimentoId(int estabelecimentoId);
+
+    Mesa getMesaById(int mesaId);
 }

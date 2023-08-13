@@ -38,4 +38,8 @@ public class PedidoController {
         return pedidoService.buscarPedidoCod(cod);
     }
 
+    @PostMapping("/finalizar")
+    public void finalizaPedido(@RequestBody PedidoCarrinhoDto pedidoCarrinhoDto) {
+        pedidoService.finalizaPedido(pedidoCarrinhoDto);
+    }
 }

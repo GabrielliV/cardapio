@@ -1,15 +1,18 @@
 package com.sistema.cardapio.service.impl;
 
 import com.sistema.cardapio.dto.*;
+import com.sistema.cardapio.model.Conta;
 import com.sistema.cardapio.model.ItemPedido;
 import com.sistema.cardapio.model.Pedido;
 import com.sistema.cardapio.repository.MesaRepository;
 import com.sistema.cardapio.repository.PedidoRepository;
+import com.sistema.cardapio.service.ContaService;
 import com.sistema.cardapio.service.ItemPedidoService;
 import com.sistema.cardapio.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +21,15 @@ public class PedidoServiceImpl implements PedidoService {
     private final PedidoRepository pedidoRepository;
     private final MesaRepository mesaRepository;
 
+    private final ContaService contaService;
+
     private final ItemPedidoService itemPedidoService;
 
     @Autowired
-    public PedidoServiceImpl(PedidoRepository pedidoRepository, MesaRepository mesaRepository, ItemPedidoService itemPedidoService) {
+    public PedidoServiceImpl(PedidoRepository pedidoRepository, MesaRepository mesaRepository, ContaService contaService, ItemPedidoService itemPedidoService) {
         this.pedidoRepository = pedidoRepository;
         this.mesaRepository = mesaRepository;
+        this.contaService = contaService;
         this.itemPedidoService = itemPedidoService;
     }
 
@@ -71,6 +77,28 @@ public class PedidoServiceImpl implements PedidoService {
         return retornaPedidos(pedidos);
     }
 
+    @Override
+    public void finalizaPedido(PedidoCarrinhoDto pedidoCarrinhoDto) {
+        Conta conta = contaService.buscaContaCod(pedidoCarrinhoDto.getCod(), pedidoCarrinhoDto.getMesaId());
+
+        if (conta == null) {
+            conta = contaService.criarConta(pedidoCarrinhoDto.getMesaId(), pedidoCarrinhoDto.getCod());
+        }
+
+        double valor = 0;
+
+        Pedido pedido = createPedido(conta, pedidoCarrinhoDto.getObservacao());
+
+        for (PedidoItemDto itemPedidoDto : pedidoCarrinhoDto.getPedidoItem()) {
+            ItemPedido itemPedido = itemPedidoService.createItem(itemPedidoDto, pedido.getId());
+
+            valor = valor + itemPedido.getTotal();
+        }
+
+        contaService.atualizaTotal(conta, valor);
+
+    }
+
     private PedidoMesaDto retornaPedidos(List<Pedido> pedidos) {
         PedidoMesaDto pedidoMesaDto = new PedidoMesaDto();
         double valor = 0;
@@ -96,5 +124,17 @@ public class PedidoServiceImpl implements PedidoService {
         }
 
         return pedidoMesaDto;
+    }
+
+    public Pedido createPedido (Conta conta, String observacao) {
+        Pedido pedido = new Pedido();
+
+        pedido.setConta(conta);
+        pedido.setHora_pedido(LocalDateTime.now());
+        pedido.setObservacao(observacao);
+
+        pedidoRepository.save(pedido);
+
+        return pedido;
     }
 }

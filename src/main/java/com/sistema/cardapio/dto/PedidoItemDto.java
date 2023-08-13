@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class PedidoItemDto {
-    int id_produto;
+    int produtoId;
     int qtde;
 }
