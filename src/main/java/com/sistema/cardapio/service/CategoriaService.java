@@ -7,4 +7,6 @@ import java.util.List;
 public interface CategoriaService {
 
     List<Categoria> listarCategorias();
+
+    List<String> nomesCategoria();
 }

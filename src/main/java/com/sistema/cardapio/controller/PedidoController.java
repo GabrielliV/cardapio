@@ -5,6 +5,8 @@ import com.sistema.cardapio.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -38,8 +40,19 @@ public class PedidoController {
         return pedidoService.buscarPedidoCod(cod);
     }
 
-    @PostMapping("/finalizar")
-    public void finalizaPedido(@RequestBody PedidoCarrinhoDto pedidoCarrinhoDto) {
-        pedidoService.finalizaPedido(pedidoCarrinhoDto);
+    @GetMapping("tempomedio/{estabelecimentoId}")
+    public String tempoMedio(@PathVariable int estabelecimentoId) {
+        return pedidoService.tempoMedio(estabelecimentoId);
     }
+
+    @PostMapping("/solicitar")
+    public void solicitaPedido(@RequestBody PedidoCarrinhoDto pedidoCarrinhoDto) {
+        pedidoService.solicitaPedido(pedidoCarrinhoDto);
+    }
+
+    @PostMapping("/finalizar/{pedidoId}")
+    public void finalizaPedido(@PathVariable int pedidoId) {
+        pedidoService.finalizaPedido(pedidoId);
+    }
+
 }

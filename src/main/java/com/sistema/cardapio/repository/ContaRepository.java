@@ -11,9 +11,15 @@ import java.util.List;
 
 @Repository
 public interface ContaRepository extends JpaRepository<Conta, Integer> {
-    Conta getContaByMesaId(int mesa);
+    Conta getContaByMesaId(int mesaId);
 
-    Conta getContaByMesa_IdAndStatus(int mesaId, boolean status);
+    Conta getContaByCod(String cod);
+
+    @Query("SELECT c FROM Conta c " +
+            "WHERE c.mesa.id = :mesaId AND c.status = :status AND c.id = " +
+            "(SELECT MAX(c2.id) FROM Conta c2 " +
+            "WHERE c2.mesa.id = :mesaId AND c2.status = :status)")
+    Conta findLastContaByMesaIdAndStatus(@Param("mesaId") int mesaId, @Param("status") boolean status);
 
     @Query("SELECT p FROM Pedido p " +
             "JOIN p.conta c " +

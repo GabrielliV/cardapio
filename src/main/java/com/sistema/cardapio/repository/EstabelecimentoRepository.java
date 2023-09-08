@@ -11,4 +11,6 @@ public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento
     List<Estabelecimento> findAll();
 
     Estabelecimento getEstabelecimentoByLoginAndIdentificador(String login, int identificador);
+
+    Estabelecimento getEstabelecimentoById(int estabelecimentoId);
 }

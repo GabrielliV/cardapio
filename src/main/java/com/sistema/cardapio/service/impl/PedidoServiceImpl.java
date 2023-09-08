@@ -12,7 +12,10 @@ import com.sistema.cardapio.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,14 +45,15 @@ public class PedidoServiceImpl implements PedidoService {
         pedidoDto.setId(pedido.getId());
         pedidoDto.setObservacao(pedido.getObservacao());
         pedidoDto.setHora_pedido(pedido.getHora_pedido());
+        pedidoDto.setHora_entrega(pedido.getHora_entrega());
         pedidoDto.setItemPedido(itensPedido);
         return pedidoDto;
     }
 
     @Override
-    public List<PedidosDto> pedidos(int estabelecimento) {
+    public List<PedidosDto> pedidos(int estabelecimentoId) {
         List<PedidosDto> pedidosDtos = new ArrayList<>();
-        List<Pedido> pedidos = pedidoRepository.buscarPedidosEstabelecimento(estabelecimento);
+        List<Pedido> pedidos = pedidoRepository.buscarPedidosEstabelecimento(estabelecimentoId);
 
         for (Pedido pedido: pedidos) {
             PedidosDto pedidosDto = new PedidosDto();
@@ -78,7 +82,27 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public void finalizaPedido(PedidoCarrinhoDto pedidoCarrinhoDto) {
+    public String tempoMedio(int estabelecimentoId) {
+        List<Pedido> pedidos = pedidoRepository.buscarPedidosEntregues(estabelecimentoId);
+
+        long totalDuracao = 0;
+
+        for (Pedido pedido : pedidos) {
+            Duration duracaoPedido = calcularTempoEntrega(pedido.getHora_pedido(), pedido.getHora_entrega());
+            totalDuracao += duracaoPedido.toMillis();
+        }
+
+        if (!pedidos.isEmpty()) {
+            Duration tempoMedio = Duration.ofMillis(totalDuracao / pedidos.size());
+
+            return String.format("%d:%d", tempoMedio.toHours(), tempoMedio.toMinutes());
+        } else {
+            return "00:00";
+        }
+    }
+
+    @Override
+    public void solicitaPedido(PedidoCarrinhoDto pedidoCarrinhoDto) {
         Conta conta = contaService.buscaContaCod(pedidoCarrinhoDto.getCod(), pedidoCarrinhoDto.getMesaId());
 
         if (conta == null) {
@@ -97,6 +121,16 @@ public class PedidoServiceImpl implements PedidoService {
 
         contaService.atualizaTotal(conta, valor);
 
+    }
+
+    @Override
+    public void finalizaPedido(int pedidoId) {
+        Pedido pedido = pedidoRepository.findPedidoById(pedidoId);
+
+        if (pedido != null) {
+            pedido.setHora_entrega(LocalDateTime.now());
+            pedidoRepository.save(pedido);
+        }
     }
 
     private PedidoMesaDto retornaPedidos(List<Pedido> pedidos) {
@@ -136,5 +170,9 @@ public class PedidoServiceImpl implements PedidoService {
         pedidoRepository.save(pedido);
 
         return pedido;
+    }
+
+    private Duration calcularTempoEntrega(LocalDateTime hora_pedido, LocalDateTime hora_entrega) {
+        return Duration.between(hora_pedido, hora_entrega);
     }
 }

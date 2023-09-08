@@ -1,12 +1,10 @@
 package com.sistema.cardapio.controller;
 
+import com.sistema.cardapio.dto.ProdutoDto;
 import com.sistema.cardapio.model.Produto;
 import com.sistema.cardapio.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +27,26 @@ public class ProdutoController {
     @GetMapping("/produto/{id}")
     public Produto produto(@PathVariable int id) {
         return produtoService.produto(id);
+    }
+
+    @PostMapping("/status/produto/{produtoId}/{status}")
+    public void ativaInativaProduto(@PathVariable int produtoId, @PathVariable boolean status) {
+        produtoService.ativaInativaProduto(produtoId, status);
+    }
+
+    @PostMapping("/altera/produto/{produtoId}")
+    public void alteraProduto(@PathVariable int produtoId, @RequestBody ProdutoDto produto) {
+        produtoService.alteraProduto(produtoId, produto);
+    }
+
+    @PostMapping("/deleta/produto/{produtoId}")
+    public void deletaProduto(@PathVariable int produtoId) {
+        produtoService.deletaProduto(produtoId);
+    }
+
+    @PostMapping("/cria/produto")
+    public int criaProduto(@RequestBody ProdutoDto produto) {
+        return produtoService.criaProduto(produto);
     }
 
 }

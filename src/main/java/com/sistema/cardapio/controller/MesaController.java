@@ -19,14 +19,19 @@ public class MesaController {
         this.mesaService = mesaService;
     }
 
+    @GetMapping("/listar/{estabelecimentoId}")
+    public List<MesasDto> listaMesas(@PathVariable int estabelecimentoId) {
+        return mesaService.mesas(estabelecimentoId);
+    }
+
     @PostMapping("/login/{mesa}")
     public Mesa loginMesa(@RequestBody Estabelecimento estabelecimento, @PathVariable int mesa) {
         return mesaService.validaMesa(
                 estabelecimento.getLogin(), estabelecimento.getIdentificador(), mesa);
     }
 
-    @GetMapping("/listar/{estabelecimentoId}")
-    public List<MesasDto> listaMesas(@PathVariable int estabelecimentoId) {
-        return mesaService.mesas(estabelecimentoId);
+    @PostMapping("/criar/{estabelecimentoId}/{mesa}")
+    public void criaMesa(@PathVariable int estabelecimentoId, @PathVariable int mesa) {
+        mesaService.criaMesa(estabelecimentoId, mesa);
     }
 }

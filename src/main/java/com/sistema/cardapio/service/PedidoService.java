@@ -2,6 +2,7 @@ package com.sistema.cardapio.service;
 
 import com.sistema.cardapio.dto.*;
 
+import java.time.Duration;
 import java.util.List;
 
 public interface PedidoService {
@@ -13,6 +14,10 @@ public interface PedidoService {
 
     PedidoMesaDto buscarPedidoCod(String cod);
 
-    void finalizaPedido(PedidoCarrinhoDto pedidoCarrinhoDto);
+    String tempoMedio (int estabelecimentoId);
+
+    void solicitaPedido(PedidoCarrinhoDto pedidoCarrinhoDto);
+
+    void finalizaPedido(int pedidoId);
 
 }

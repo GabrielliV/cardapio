@@ -18,9 +18,9 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
             "INNER JOIN p.conta c " +
             "INNER JOIN c.mesa m " +
             "INNER JOIN m.estabelecimento e " +
-            "WHERE e.id = :estabelecimento AND p.hora_entrega is null " +
-            " ORDER BY p.hora_pedido ASC")
-    List<Pedido> buscarPedidosEstabelecimento(@Param("estabelecimento") int estabelecimento);
+            "WHERE e.id = :estabelecimentoId AND p.hora_entrega is null " +
+            "ORDER BY p.hora_pedido ASC")
+    List<Pedido> buscarPedidosEstabelecimento(@Param("estabelecimentoId") int estabelecimentoId);
 
     @Query("SELECT p FROM Pedido p " +
             "JOIN p.conta c " +
@@ -34,4 +34,14 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
             "WHERE c.cod = :cod AND c.status = true " +
             "ORDER BY p.hora_pedido ASC")
     List<Pedido> buscarPedidoCod(@Param("cod") String cod);
+
+    @Query("SELECT p FROM Pedido p " +
+            "INNER JOIN p.conta c " +
+            "INNER JOIN c.mesa m " +
+            "INNER JOIN m.estabelecimento e " +
+            "WHERE e.id = :estabelecimentoId " +
+            "AND p.hora_pedido >= CURRENT_DATE " +
+            "AND p.hora_entrega is not null " +
+            "ORDER BY p.hora_pedido ASC")
+    List<Pedido> buscarPedidosEntregues(@Param("estabelecimentoId") int estabelecimentoId);
 }

@@ -9,4 +9,6 @@ public interface MesaService {
     Mesa validaMesa(String login, int identificador, int mesa);
 
     List<MesasDto> mesas(int estabelecimentoId);
+
+    void criaMesa(int estabelecimentoId, int mesa);
 }

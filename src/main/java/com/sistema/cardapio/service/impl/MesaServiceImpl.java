@@ -43,13 +43,24 @@ public class MesaServiceImpl implements MesaService {
             mesaDto.setId(mesa.getId());
             mesaDto.setMesa(mesa.getMesa());
 
-            Conta conta = contaRepository.getContaByMesa_IdAndStatus(mesa.getId(), true);
+            Conta conta = contaRepository.findLastContaByMesaIdAndStatus(mesa.getId(), true);
             mesaDto.setStatus(conta != null);
 
             mesasDtos.add(mesaDto);
         }
 
         return mesasDtos;
+    }
+
+    @Override
+    public void criaMesa(int estabelecimentoId, int mesa) {
+        Mesa mesaNova = new Mesa();
+        Estabelecimento estabelecimento = estabelecimentoRepository.getEstabelecimentoById(estabelecimentoId);
+
+        mesaNova.setMesa(mesa);
+        mesaNova.setEstabelecimento(estabelecimento);
+
+        mesaRepository.save(mesaNova);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.sistema.cardapio.service.impl;
 
+import com.sistema.cardapio.dto.EstabalecimentoDto;
 import com.sistema.cardapio.model.Estabelecimento;
 import com.sistema.cardapio.repository.EstabelecimentoRepository;
 import com.sistema.cardapio.service.EstabelecimentoService;
@@ -24,7 +25,15 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public Estabelecimento validaEstabelecimento(String login, int identificador) {
-        return estabelecimentoRepository.getEstabelecimentoByLoginAndIdentificador(login, identificador);
+    public EstabalecimentoDto loginEstabelecimento(String login, int identificador) {
+        Estabelecimento estabelecimento = estabelecimentoRepository.getEstabelecimentoByLoginAndIdentificador(login, identificador);
+
+        EstabalecimentoDto estabalecimentoDto = new EstabalecimentoDto();
+
+        estabalecimentoDto.setId(estabelecimento.getId());
+        estabalecimentoDto.setNome(estabelecimento.getNome());
+
+        return estabalecimentoDto;
     }
+
 }

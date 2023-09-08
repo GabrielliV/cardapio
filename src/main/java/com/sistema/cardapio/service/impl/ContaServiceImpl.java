@@ -1,9 +1,11 @@
 package com.sistema.cardapio.service.impl;
 
+import com.sistema.cardapio.dto.ContaDto;
 import com.sistema.cardapio.model.Conta;
 import com.sistema.cardapio.model.Mesa;
 import com.sistema.cardapio.repository.ContaRepository;
 import com.sistema.cardapio.repository.MesaRepository;
+import com.sistema.cardapio.repository.PedidoRepository;
 import com.sistema.cardapio.service.ContaService;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,12 @@ public class ContaServiceImpl implements ContaService {
 
     private final MesaRepository mesaRepository;
 
-    public ContaServiceImpl(ContaRepository contaRepository, MesaRepository mesaRepository) {
+    private final PedidoRepository pedidoRepository;
+
+    public ContaServiceImpl(ContaRepository contaRepository, MesaRepository mesaRepository, PedidoRepository pedidoRepository) {
         this.contaRepository = contaRepository;
         this.mesaRepository = mesaRepository;
+        this.pedidoRepository = pedidoRepository;
     }
 
     @Override
@@ -44,4 +49,23 @@ public class ContaServiceImpl implements ContaService {
 
         contaRepository.save(conta);
     }
+
+    @Override
+    public void finalizaMesa(int mesaId) {
+        Conta conta = contaRepository.getContaByMesaId(mesaId);
+
+        conta.setStatus(false);
+
+        contaRepository.save(conta);
+    }
+
+    @Override
+    public void finalizaCod(String cod) {
+        Conta conta = contaRepository.getContaByCod(cod);
+
+        conta.setStatus(false);
+
+        contaRepository.save(conta);
+    }
+
 }
