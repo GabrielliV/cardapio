@@ -20,7 +20,7 @@ public class PedidoController {
         this.pedidoService = pedidoService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/pedido/{id}")
     public PedidoDto listarPedido(@PathVariable int id) {
         return pedidoService.pedido(id);
     }

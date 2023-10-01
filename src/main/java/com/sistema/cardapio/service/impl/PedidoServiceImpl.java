@@ -59,7 +59,7 @@ public class PedidoServiceImpl implements PedidoService {
             PedidosDto pedidosDto = new PedidosDto();
             pedidosDto.setId(pedido.getId());
             pedidosDto.setHora_pedido(pedido.getHora_pedido().toLocalTime());
-            pedidosDto.setMesa_id(pedido.getConta().getMesa().getMesa());
+            pedidosDto.setMesa(pedido.getConta().getMesa().getMesa());
 
             pedidosDtos.add(pedidosDto);
         }

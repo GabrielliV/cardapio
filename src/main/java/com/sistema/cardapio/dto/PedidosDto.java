@@ -10,5 +10,5 @@ import java.time.LocalTime;
 public class PedidosDto {
     private int id;
     private LocalTime hora_pedido;
-    private int mesa_id;
+    private int mesa;
 }

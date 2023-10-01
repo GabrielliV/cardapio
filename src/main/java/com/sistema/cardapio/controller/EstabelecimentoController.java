@@ -25,7 +25,7 @@ public class EstabelecimentoController {
         return estabelecimentoService.listarEstabelecimento();
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public EstabalecimentoDto validaEstabelecimento(
             @RequestBody Estabelecimento estabelecimento) {
         return estabelecimentoService.loginEstabelecimento(
