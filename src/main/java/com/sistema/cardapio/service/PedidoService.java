@@ -10,7 +10,7 @@ public interface PedidoService {
 
     List<PedidosDto> pedidos(int estabelecimentoId);
 
-    PedidoMesaDto buscarPedidoMesa(int mesa);
+    PedidoMesaDto buscarPedidoMesa(int mesaId);
 
     PedidoMesaDto buscarPedidoCod(String cod);
 

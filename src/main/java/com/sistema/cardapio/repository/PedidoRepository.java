@@ -25,9 +25,9 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     @Query("SELECT p FROM Pedido p " +
             "JOIN p.conta c " +
             "JOIN c.mesa m " +
-            "WHERE m.mesa = :mesa AND c.status = true " +
+            "WHERE m.id = :mesaId AND c.status = true " +
             "ORDER BY p.hora_pedido ASC")
-    List<Pedido> buscarPedidoMesa(@Param("mesa") int mesa);
+    List<Pedido> buscarPedidoMesa(@Param("mesaId") int mesaId);
 
     @Query("SELECT p FROM Pedido p " +
             "JOIN p.conta c " +

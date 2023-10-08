@@ -30,9 +30,9 @@ public class PedidoController {
         return pedidoService.pedidos(estabelecimentoId);
     }
 
-    @GetMapping("/mesa/{mesa}")
-    public PedidoMesaDto listarPedidosMesa(@PathVariable int mesa) {
-        return pedidoService.buscarPedidoMesa(mesa);
+    @GetMapping("/mesa/{mesaId}")
+    public PedidoMesaDto listarPedidosMesa(@PathVariable int mesaId) {
+        return pedidoService.buscarPedidoMesa(mesaId);
     }
 
     @GetMapping("/cod/{cod}")

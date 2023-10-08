@@ -9,6 +9,8 @@ import com.sistema.cardapio.repository.PedidoRepository;
 import com.sistema.cardapio.service.ContaService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContaServiceImpl implements ContaService {
     private final ContaRepository contaRepository;
@@ -25,7 +27,7 @@ public class ContaServiceImpl implements ContaService {
 
     @Override
     public Conta buscaContaCod(String cod, int mesaId) {
-        return contaRepository.getContaByCodAndMesa_Id(cod, mesaId);
+        return contaRepository.getContaByCodAndMesa_IdAndStatus(cod, mesaId, true);
     }
 
     @Override
@@ -52,11 +54,12 @@ public class ContaServiceImpl implements ContaService {
 
     @Override
     public void finalizaMesa(int mesaId) {
-        Conta conta = contaRepository.getContaByMesaId(mesaId);
+        List<Conta> contas = contaRepository.getContaByMesaId(mesaId);
 
-        conta.setStatus(false);
-
-        contaRepository.save(conta);
+        for (Conta conta : contas) {
+            conta.setStatus(false);
+            contaRepository.save(conta);
+        }
     }
 
     @Override

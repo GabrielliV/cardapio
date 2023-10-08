@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -68,8 +69,8 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public PedidoMesaDto buscarPedidoMesa(int mesa) {
-        List<Pedido> pedidos = pedidoRepository.buscarPedidoMesa(mesa);
+    public PedidoMesaDto buscarPedidoMesa(int mesaId) {
+        List<Pedido> pedidos = pedidoRepository.buscarPedidoMesa(mesaId);
 
         return retornaPedidos(pedidos);
     }
@@ -135,11 +136,11 @@ public class PedidoServiceImpl implements PedidoService {
 
     private PedidoMesaDto retornaPedidos(List<Pedido> pedidos) {
         PedidoMesaDto pedidoMesaDto = new PedidoMesaDto();
+        List<ItemPedidoDto> itensPedidoDto = new ArrayList<>();
         double valor = 0;
 
         for (Pedido pedido: pedidos) {
             List<ItemPedido> itens = itemPedidoService.itemPedidoPorPedido(pedido.getId());
-            List<ItemPedidoDto> itensPedidoDto = new ArrayList<>();
 
             for (ItemPedido item : itens) {
                 ItemPedidoDto itemPedidoDto = new ItemPedidoDto();
@@ -149,13 +150,14 @@ public class PedidoServiceImpl implements PedidoService {
                 itemPedidoDto.setValor(item.getTotal());
 
                 itensPedidoDto.add(itemPedidoDto);
-                valor = valor + item.getTotal();
+                valor = valor + (item.getTotal() * item.getQtde());
             }
 
             pedidoMesaDto.setItensDto(itensPedidoDto);
-            pedidoMesaDto.setTotal(valor);
             pedidoMesaDto.setCod(pedidos.get(0).getConta().getCod());
         }
+
+        pedidoMesaDto.setTotal(valor);
 
         return pedidoMesaDto;
     }

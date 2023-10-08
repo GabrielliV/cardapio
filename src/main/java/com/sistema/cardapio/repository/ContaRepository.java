@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ContaRepository extends JpaRepository<Conta, Integer> {
-    Conta getContaByMesaId(int mesaId);
+    List<Conta> getContaByMesaId(int mesaId);
 
     Conta getContaByCod(String cod);
 
@@ -27,6 +27,6 @@ public interface ContaRepository extends JpaRepository<Conta, Integer> {
             "ORDER BY p.hora_pedido ASC")
     List<Pedido> buscarPedidoCod(@Param("cod") String cod);
 
-    Conta getContaByCodAndMesa_Id(String cod, int mesaId);
+    Conta getContaByCodAndMesa_IdAndStatus(String cod, int mesaId, boolean status);
 
 }
