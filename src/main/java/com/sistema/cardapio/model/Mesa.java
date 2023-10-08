@@ -15,6 +15,7 @@ public class Mesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int mesa;
+    private Boolean ativo;
     @ManyToOne
     @JoinColumn(name = "id_estabelecimento")
     private Estabelecimento estabelecimento;

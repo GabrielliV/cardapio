@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class MesasDto {
     private int id;
     private int mesa;
-    private boolean status;
+    private String status;
+    private String ativo;
 }

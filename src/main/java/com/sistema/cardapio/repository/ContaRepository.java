@@ -28,4 +28,5 @@ public interface ContaRepository extends JpaRepository<Conta, Integer> {
     List<Pedido> buscarPedidoCod(@Param("cod") String cod);
 
     Conta getContaByCodAndMesa_Id(String cod, int mesaId);
+
 }

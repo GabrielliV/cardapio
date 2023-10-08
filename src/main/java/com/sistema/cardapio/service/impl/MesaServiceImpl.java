@@ -36,15 +36,25 @@ public class MesaServiceImpl implements MesaService {
     @Override
     public List<MesasDto> mesas(int estabelecimentoId) {
         List<MesasDto> mesasDtos = new ArrayList<>();
-        List<Mesa> mesas = mesaRepository.getMesaByEstabelecimentoId(estabelecimentoId);
+        List<Mesa> mesas = mesaRepository.getMesaByEstabelecimentoIdOrderByAtivoDesc(estabelecimentoId);
 
         for (Mesa mesa: mesas) {
             MesasDto mesaDto = new MesasDto();
             mesaDto.setId(mesa.getId());
             mesaDto.setMesa(mesa.getMesa());
 
+            if (mesa.getAtivo() == true) {
+                mesaDto.setAtivo("Inativar");
+            } else {
+                mesaDto.setAtivo("Ativar");
+            }
+
             Conta conta = contaRepository.findLastContaByMesaIdAndStatus(mesa.getId(), true);
-            mesaDto.setStatus(conta != null);
+            if (conta != null) {
+                mesaDto.setStatus("Ocupada");
+            } else {
+                mesaDto.setStatus("Liberada");
+            }
 
             mesasDtos.add(mesaDto);
         }
@@ -59,8 +69,22 @@ public class MesaServiceImpl implements MesaService {
 
         mesaNova.setMesa(mesa);
         mesaNova.setEstabelecimento(estabelecimento);
+        mesaNova.setAtivo(true);
 
         mesaRepository.save(mesaNova);
+    }
+
+    @Override
+    public void ativaInativaMesa(int mesaId, String status) {
+        Mesa mesa = mesaRepository.getMesaById(mesaId);
+
+        if (status.equals("Inativar")) {
+            mesa.setAtivo(false);
+        } else {
+            mesa.setAtivo(true);
+        }
+
+        mesaRepository.save(mesa);
     }
 
 }

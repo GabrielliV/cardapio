@@ -34,4 +34,9 @@ public class MesaController {
     public void criaMesa(@PathVariable int estabelecimentoId, @PathVariable int mesa) {
         mesaService.criaMesa(estabelecimentoId, mesa);
     }
+
+    @PostMapping("/status/mesa/{mesaId}/{status}")
+    public void inativaMesa(@PathVariable int mesaId, @PathVariable String status) {
+        mesaService.ativaInativaMesa(mesaId, status);
+    }
 }

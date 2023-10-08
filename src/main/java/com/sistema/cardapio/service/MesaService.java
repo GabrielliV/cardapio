@@ -11,4 +11,6 @@ public interface MesaService {
     List<MesasDto> mesas(int estabelecimentoId);
 
     void criaMesa(int estabelecimentoId, int mesa);
+
+    void ativaInativaMesa(int mesaId, String status);
 }
