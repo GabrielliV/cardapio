@@ -7,8 +7,14 @@ import com.sistema.cardapio.repository.CategoriaRepository;
 import com.sistema.cardapio.repository.ProdutoRepository;
 import com.sistema.cardapio.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -27,6 +33,11 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public List<Produto> produtosPorCategoria(int id_categoria) {
         return produtoRepository.findProdutosByCategoriaIdAndAtivo(id_categoria, true);
+    }
+
+    @Override
+    public List<Produto> todosProdutosPorCategoria(int id_categoria) {
+        return produtoRepository.findProdutosByCategoriaIdOrderByAtivoDesc(id_categoria);
     }
 
     @Override
@@ -63,7 +74,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public void alteraProduto(int produtoId, ProdutoDto produto) {
+    public int alteraProduto(int produtoId, ProdutoDto produto) {
         Produto produtoResponse = produtoRepository.getProdutoById(produtoId);
 
         produtoResponse.setNome(produto.getNome());
@@ -76,6 +87,8 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoResponse.setCategoria(categoria);
 
         produtoRepository.save(produtoResponse);
+
+        return produtoResponse.getId();
     }
 
     @Override

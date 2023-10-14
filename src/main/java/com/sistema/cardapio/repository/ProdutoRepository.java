@@ -10,5 +10,7 @@ import java.util.List;
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     List<Produto> findProdutosByCategoriaIdAndAtivo(int id_categoria, boolean ativo);
 
+    List<Produto> findProdutosByCategoriaIdOrderByAtivoDesc(int id_categoria);
+
     Produto getProdutoById(int id);
 }

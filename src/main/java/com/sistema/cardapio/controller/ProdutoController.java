@@ -6,6 +6,7 @@ import com.sistema.cardapio.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -20,8 +21,13 @@ public class ProdutoController {
     }
 
     @GetMapping("/categoria/{id_categoria}")
-    public List<Produto> produtosPorCategoria(@PathVariable int id_categoria) {
+    public List<Produto> cardapioProdutosPorCategoria(@PathVariable int id_categoria) {
         return produtoService.produtosPorCategoria(id_categoria);
+    }
+
+    @GetMapping("lista/categoria/{id_categoria}")
+    public List<Produto> listaProdutosPorCategoria(@PathVariable int id_categoria) {
+        return produtoService.todosProdutosPorCategoria(id_categoria);
     }
 
     @GetMapping("/produto/{id}")
@@ -35,8 +41,8 @@ public class ProdutoController {
     }
 
     @PostMapping("/altera/produto/{produtoId}")
-    public void alteraProduto(@PathVariable int produtoId, @RequestBody ProdutoDto produto) {
-        produtoService.alteraProduto(produtoId, produto);
+    public int alteraProduto(@PathVariable int produtoId, @RequestBody ProdutoDto produto) {
+        return produtoService.alteraProduto(produtoId, produto);
     }
 
     @PostMapping("/deleta/produto/{produtoId}")
