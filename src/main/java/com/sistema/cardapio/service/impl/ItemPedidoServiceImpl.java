@@ -1,12 +1,16 @@
 package com.sistema.cardapio.service.impl;
 
 import com.sistema.cardapio.dto.PedidoItemDto;
+import com.sistema.cardapio.dto.RelatorioPratosDto;
 import com.sistema.cardapio.model.ItemPedido;
 import com.sistema.cardapio.model.Produto;
 import com.sistema.cardapio.repository.ItemPedidoRepository;
 import com.sistema.cardapio.service.ItemPedidoService;
 import com.sistema.cardapio.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +48,15 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
         itemPedidoRepository.save(itemPedido);
 
         return itemPedido;
+    }
+
+    @Override
+    public Page<RelatorioPratosDto> pratosSolicitados(String order) {
+        Pageable topTen = PageRequest.of(0, 10);
+        if (order.equals("MENOS")) {
+            return itemPedidoRepository.pratosMenosSolicitados(topTen);
+        } else {
+            return itemPedidoRepository.pratosMaisSolicitados(topTen);
+        }
     }
 }
