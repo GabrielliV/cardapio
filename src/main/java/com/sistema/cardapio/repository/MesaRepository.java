@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface MesaRepository extends JpaRepository<Mesa, Integer> {
-    Mesa getMesaByEstabelecimentoIdAndMesa(int estabelecimentoId, int mesa);
+    Mesa getMesaByEstabelecimentoIdAndMesaOrderByMesa(int estabelecimentoId, int mesa);
 
     List<Mesa> getMesaByEstabelecimentoIdOrderByAtivoDesc(int estabelecimentoId);
 

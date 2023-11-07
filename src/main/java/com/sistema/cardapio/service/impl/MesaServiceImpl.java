@@ -30,7 +30,7 @@ public class MesaServiceImpl implements MesaService {
     public Mesa validaMesa(String login, int identificador, int mesa) {
         Estabelecimento estabelecimento =
                 estabelecimentoRepository.getEstabelecimentoByLoginAndIdentificador(login, identificador);
-        return mesaRepository.getMesaByEstabelecimentoIdAndMesa(estabelecimento.getId(), mesa);
+        return mesaRepository.getMesaByEstabelecimentoIdAndMesaOrderByMesa(estabelecimento.getId(), mesa);
     }
 
     @Override

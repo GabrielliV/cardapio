@@ -10,6 +10,8 @@ import com.sistema.cardapio.service.ContaService;
 import com.sistema.cardapio.service.ItemPedidoService;
 import com.sistema.cardapio.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
@@ -84,7 +86,9 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public String tempoMedio(int estabelecimentoId) {
-        List<Pedido> pedidos = pedidoRepository.buscarPedidosEntregues(estabelecimentoId);
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Pedido> pedidos = pedidoRepository.buscarPedidosEntregues(estabelecimentoId, pageable);
 
         long totalDuracao = 0;
 
@@ -144,7 +148,7 @@ public class PedidoServiceImpl implements PedidoService {
 
             for (ItemPedido item : itens) {
                 ItemPedidoDto itemPedidoDto = new ItemPedidoDto();
-                itemPedidoDto.setPedido_id(item.getId_pedido());
+                itemPedidoDto.setItemId(item.getId());
                 itemPedidoDto.setNome(item.getProduto().getNome());
                 itemPedidoDto.setQtde(item.getQtde());
                 itemPedidoDto.setValor(item.getTotal());

@@ -2,6 +2,7 @@ package com.sistema.cardapio.repository;
 
 import com.sistema.cardapio.dto.RelatorioPedidoDto;
 import com.sistema.cardapio.model.Pedido;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,8 +41,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
             "INNER JOIN c.mesa m " +
             "INNER JOIN m.estabelecimento e " +
             "WHERE e.id = :estabelecimentoId " +
-            "AND p.hora_pedido >= CURRENT_DATE " +
             "AND p.hora_entrega is not null " +
-            "ORDER BY p.hora_pedido ASC")
-    List<Pedido> buscarPedidosEntregues(@Param("estabelecimentoId") int estabelecimentoId);
+            "ORDER BY p.hora_pedido DESC")
+    List<Pedido> buscarPedidosEntregues(@Param("estabelecimentoId") int estabelecimentoId, Pageable pageable);
 }

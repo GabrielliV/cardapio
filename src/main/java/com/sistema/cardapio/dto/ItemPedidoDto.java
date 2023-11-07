@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class ItemPedidoDto {
-    private int pedido_id;
+    private int itemId;
     private String nome;
     private int qtde;
     private double valor;
