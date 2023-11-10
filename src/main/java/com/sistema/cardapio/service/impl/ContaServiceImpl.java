@@ -64,11 +64,12 @@ public class ContaServiceImpl implements ContaService {
 
     @Override
     public void finalizaCod(String cod) {
-        Conta conta = contaRepository.getContaByCod(cod);
+        List<Conta> contas = contaRepository.getContaByCod(cod);
 
-        conta.setStatus(false);
-
-        contaRepository.save(conta);
+        for (Conta conta : contas) {
+            conta.setStatus(false);
+            contaRepository.save(conta);
+        }
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public interface ContaRepository extends JpaRepository<Conta, Integer> {
     List<Conta> getContaByMesaId(int mesaId);
 
-    Conta getContaByCod(String cod);
+    List<Conta> getContaByCod(String cod);
 
     @Query("SELECT c FROM Conta c " +
             "WHERE c.mesa.id = :mesaId AND c.status = :status AND c.id = " +

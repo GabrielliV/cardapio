@@ -10,7 +10,7 @@ import java.util.List;
 public interface MesaRepository extends JpaRepository<Mesa, Integer> {
     Mesa getMesaByEstabelecimentoIdAndMesaOrderByMesa(int estabelecimentoId, int mesa);
 
-    List<Mesa> getMesaByEstabelecimentoIdOrderByAtivoDesc(int estabelecimentoId);
+    List<Mesa> getMesaByEstabelecimentoIdOrderByMesaAsc(int estabelecimentoId);
 
     Mesa getMesaById(int mesaId);
 }

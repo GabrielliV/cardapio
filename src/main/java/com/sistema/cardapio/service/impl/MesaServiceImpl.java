@@ -36,14 +36,14 @@ public class MesaServiceImpl implements MesaService {
     @Override
     public List<MesasDto> mesas(int estabelecimentoId) {
         List<MesasDto> mesasDtos = new ArrayList<>();
-        List<Mesa> mesas = mesaRepository.getMesaByEstabelecimentoIdOrderByAtivoDesc(estabelecimentoId);
+        List<Mesa> mesas = mesaRepository.getMesaByEstabelecimentoIdOrderByMesaAsc(estabelecimentoId);
 
         for (Mesa mesa: mesas) {
             MesasDto mesaDto = new MesasDto();
             mesaDto.setId(mesa.getId());
             mesaDto.setMesa(mesa.getMesa());
 
-            if (mesa.getAtivo() == true) {
+            if (mesa.getAtivo()) {
                 mesaDto.setAtivo("Inativar");
             } else {
                 mesaDto.setAtivo("Ativar");
