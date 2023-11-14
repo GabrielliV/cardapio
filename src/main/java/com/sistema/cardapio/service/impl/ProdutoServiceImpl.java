@@ -41,6 +41,11 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public List<Produto> buscarProdutos(String nome) {
+        return produtoRepository.buscarProdutosLupa(nome);
+    }
+
+    @Override
     public Produto produto(int id) {
         return produtoRepository.getProdutoById(id);
     }

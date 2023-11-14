@@ -22,5 +22,10 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
             "ORDER BY p.nome ASC")
     List<Produto> buscarProdutos(@Param("categoriaId") int categoriaId);
 
+    @Query("SELECT p FROM Produto p " +
+            "WHERE p.nome LIKE %:nome% " +
+            "ORDER BY p.nome ASC")
+    List<Produto> buscarProdutosLupa(@Param("nome") String nome);
+
     Produto getProdutoById(int id);
 }

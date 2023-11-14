@@ -11,6 +11,8 @@ public interface ProdutoService {
 
     List<Produto> todosProdutosPorCategoria(int categoriaId);
 
+    List<Produto> buscarProdutos(String nome);
+
     Produto produto(int id);
 
     int criaProduto(ProdutoDto produto);

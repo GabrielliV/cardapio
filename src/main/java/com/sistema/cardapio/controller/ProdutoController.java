@@ -30,6 +30,11 @@ public class ProdutoController {
         return produtoService.todosProdutosPorCategoria(id_categoria);
     }
 
+    @GetMapping("lupa/{nome}")
+    public List<Produto> listaProdutosLupa(@PathVariable String nome) {
+        return produtoService.buscarProdutos(nome);
+    }
+
     @GetMapping("/produto/{id}")
     public Produto produto(@PathVariable int id) {
         return produtoService.produto(id);
