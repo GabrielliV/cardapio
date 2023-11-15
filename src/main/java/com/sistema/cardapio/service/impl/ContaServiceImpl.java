@@ -1,6 +1,5 @@
 package com.sistema.cardapio.service.impl;
 
-import com.sistema.cardapio.dto.ContaDto;
 import com.sistema.cardapio.model.Conta;
 import com.sistema.cardapio.model.Mesa;
 import com.sistema.cardapio.repository.ContaRepository;
@@ -28,19 +27,6 @@ public class ContaServiceImpl implements ContaService {
     @Override
     public Conta buscaContaCod(String cod, int mesaId) {
         return contaRepository.getContaByCodAndMesa_IdAndStatus(cod, mesaId, true);
-    }
-
-    @Override
-    public Conta criarConta(int idMesa, String cod) {
-        Conta novaConta = new Conta();
-
-        Mesa mesa = mesaRepository.getMesaById(idMesa);
-        novaConta.setMesa(mesa);
-        novaConta.setCod(cod);
-        novaConta.setStatus(true);
-        novaConta.setTotal(0);
-
-        return contaRepository.save(novaConta);
     }
 
     @Override
@@ -72,4 +58,18 @@ public class ContaServiceImpl implements ContaService {
         }
     }
 
+    @Override
+    public Conta criarConta(int idMesa, String cod) {
+        Conta novaConta = new Conta();
+
+        Mesa mesa = mesaRepository.getMesaById(idMesa);
+        novaConta.setMesa(mesa);
+        novaConta.setCod(cod);
+        novaConta.setStatus(true);
+        novaConta.setTotal(0);
+
+        contaRepository.save(novaConta);
+
+        return novaConta;
+    }
 }

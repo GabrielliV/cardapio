@@ -1,6 +1,5 @@
 package com.sistema.cardapio.repository;
 
-import com.sistema.cardapio.dto.RelatorioPedidoDto;
 import com.sistema.cardapio.model.Pedido;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

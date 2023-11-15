@@ -3,7 +3,6 @@ package com.sistema.cardapio.controller;
 import com.sistema.cardapio.model.Categoria;
 import com.sistema.cardapio.service.CategoriaService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,11 +21,6 @@ public class CategoriaController {
     @GetMapping("/listar")
     public List<Categoria> listarCategorias() {
         return categoriaService.listarCategorias();
-    }
-
-    @GetMapping("/nomes")
-    public List<String> nomesCategoria() {
-        return categoriaService.nomesCategoria();
     }
 
 }

@@ -4,7 +4,6 @@ import com.sistema.cardapio.dto.EstabalecimentoDto;
 import com.sistema.cardapio.model.Estabelecimento;
 import com.sistema.cardapio.service.EstabelecimentoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

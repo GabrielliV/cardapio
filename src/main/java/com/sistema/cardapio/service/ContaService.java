@@ -1,6 +1,5 @@
 package com.sistema.cardapio.service;
 
-import com.sistema.cardapio.dto.ContaDto;
 import com.sistema.cardapio.model.Conta;
 
 public interface ContaService {

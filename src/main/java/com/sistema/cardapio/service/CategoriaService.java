@@ -8,5 +8,4 @@ public interface CategoriaService {
 
     List<Categoria> listarCategorias();
 
-    List<String> nomesCategoria();
 }

@@ -2,7 +2,6 @@ package com.sistema.cardapio.service;
 
 import com.sistema.cardapio.dto.*;
 
-import java.time.Duration;
 import java.util.List;
 
 public interface PedidoService {

@@ -7,14 +7,8 @@ import com.sistema.cardapio.repository.CategoriaRepository;
 import com.sistema.cardapio.repository.ProdutoRepository;
 import com.sistema.cardapio.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.List;
 
 @Service

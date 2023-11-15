@@ -3,7 +3,6 @@ package com.sistema.cardapio.service;
 import com.sistema.cardapio.dto.ProdutoDto;
 import com.sistema.cardapio.model.Produto;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface ProdutoService {

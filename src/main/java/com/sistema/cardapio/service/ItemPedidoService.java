@@ -4,7 +4,6 @@ import com.sistema.cardapio.dto.PedidoItemDto;
 import com.sistema.cardapio.dto.RelatorioPratosDto;
 import com.sistema.cardapio.model.ItemPedido;
 import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
