@@ -170,7 +170,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setHora_pedido(LocalDateTime.now());
         pedido.setObservacao(observacao);
 
-        pedidoRepository.save(pedido);
+        pedido = pedidoRepository.save(pedido);
 
         return pedido;
     }

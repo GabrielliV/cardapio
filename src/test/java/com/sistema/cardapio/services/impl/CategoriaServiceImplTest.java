@@ -27,17 +27,17 @@ public class CategoriaServiceImplTest {
     }
 
     @Test
-    public void testListarCategorias() {
-        when(categoriaRepository.findAll()).thenReturn(getCategorias());
+    public void listarCategoriasTest() {
+        when(categoriaRepository.findAll()).thenReturn(getCategoriasMock());
 
         List<Categoria> result = categoriaService.listarCategorias();
 
         verify(categoriaRepository, times(1)).findAll();
 
-        assertEquals(getCategorias(), result);
+        assertEquals(getCategoriasMock(), result);
     }
 
-    private List<Categoria> getCategorias() {
+    private List<Categoria> getCategoriasMock() {
         List<Categoria> categorias = new ArrayList<>();
         categorias.add(new Categoria(1, "Categoria1"));
         categorias.add(new Categoria(2, "Categoria2"));

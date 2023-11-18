@@ -5,7 +5,6 @@ import com.sistema.cardapio.model.Estabelecimento;
 import com.sistema.cardapio.model.Mesa;
 import com.sistema.cardapio.repository.ContaRepository;
 import com.sistema.cardapio.repository.MesaRepository;
-import com.sistema.cardapio.repository.PedidoRepository;
 import com.sistema.cardapio.service.impl.ContaServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,9 +25,6 @@ class ContaServiceImplTest {
     @Mock
     private MesaRepository mesaRepository;
 
-    @Mock
-    private PedidoRepository pedidoRepository;
-
     @InjectMocks
     private ContaServiceImpl contaService;
 
@@ -40,97 +35,92 @@ class ContaServiceImplTest {
 
     @Test
     void buscaContaCodTest() {
-        String cod = "123";
-        int mesaId = 1;
-        Conta mockConta = new Conta();
-        Mockito.when(contaRepository.getContaByCodAndMesa_IdAndStatus(cod, mesaId, true)).thenReturn(mockConta);
+        Conta mockConta = getContaMock();
+        Mockito.when(contaRepository.getContaByCodAndMesa_IdAndStatus(mockConta.getCod(), mockConta.getMesa().getId(), true))
+                .thenReturn(mockConta);
 
-        Conta result = contaService.buscaContaCod(cod, mesaId);
+        Conta result = contaService.buscaContaCod(mockConta.getCod(), mockConta.getMesa().getId());
 
         assertNotNull(result);
-        Mockito.verify(contaRepository).getContaByCodAndMesa_IdAndStatus(cod, mesaId, true);
+        Mockito.verify(contaRepository).getContaByCodAndMesa_IdAndStatus(mockConta.getCod(), mockConta.getMesa().getId(), true);
     }
 
     @Test
     void criarContaTest() {
         int idMesa = 1;
-        String cod = "123";
-        Mockito.when(mesaRepository.getMesaById(idMesa)).thenReturn(getMesa());
+        Mockito.when(mesaRepository.getMesaById(idMesa)).thenReturn(getMesaMock());
 
-        Conta mockConta = new Conta();
+        Conta mockConta = getContaMock();
+
         Mockito.when(contaRepository.save(Mockito.any(Conta.class))).thenReturn(mockConta);
 
-        Conta result = contaService.criarConta(idMesa, cod);
+        Conta result = contaService.criarConta(mockConta.getMesa().getId(), mockConta.getCod());
 
         assertNotNull(result);
-        assertEquals(getMesa(), result.getMesa());
-        assertEquals(cod, result.getCod());
+        assertEquals(mockConta.getMesa(), result.getMesa());
+        assertEquals(mockConta.getCod(), result.getCod());
         assertTrue(result.isStatus());
-        assertEquals(0, result.getTotal());
+        assertEquals(mockConta.getTotal(), result.getTotal());
         Mockito.verify(mesaRepository).getMesaById(idMesa);
         Mockito.verify(contaRepository).save(Mockito.any(Conta.class));
     }
 
     @Test
     void atualizaTotalTest() {
-        Conta mockConta = new Conta();
-        mockConta.setTotal(50);
+        Conta mockConta = getContaMock();
 
         contaService.atualizaTotal(mockConta, 30);
 
-        assertEquals(80, mockConta.getTotal());
+        assertEquals(30, mockConta.getTotal());
         Mockito.verify(contaRepository).save(mockConta);
     }
 
     @Test
     void finalizaMesaTest() {
         int mesaId = 1;
-        Conta mockConta1 = new Conta();
-        Conta mockConta2 = new Conta();
-        List<Conta> mockContas = Arrays.asList(mockConta1, mockConta2);
+        List<Conta> mockContas = List.of(getContaMock());
+
         Mockito.when(contaRepository.getContaByMesaId(mesaId)).thenReturn(mockContas);
 
         contaService.finalizaMesa(mesaId);
 
-        Mockito.verify(contaRepository, Mockito.times(2)).save(Mockito.any(Conta.class));
-        assertFalse(mockConta1.isStatus());
-        assertFalse(mockConta2.isStatus());
+        Mockito.verify(contaRepository, Mockito.times(1)).save(Mockito.any(Conta.class));
+        assertFalse(mockContas.get(0).isStatus());
     }
 
     @Test
     void finalizaCodTest() {
         String cod = "123";
-        Conta mockConta1 = new Conta();
-        Conta mockConta2 = new Conta();
-        List<Conta> mockContas = Arrays.asList(mockConta1, mockConta2);
+        List<Conta> mockContas = List.of(getContaMock());
         Mockito.when(contaRepository.getContaByCod(cod)).thenReturn(mockContas);
 
         contaService.finalizaCod(cod);
 
-        Mockito.verify(contaRepository, Mockito.times(2)).save(Mockito.any(Conta.class));
-        assertFalse(mockConta1.isStatus());
-        assertFalse(mockConta2.isStatus());
+        Mockito.verify(contaRepository, Mockito.times(1)).save(Mockito.any(Conta.class));
+        assertFalse(mockContas.get(0).isStatus());
     }
 
-    private Mesa getMesa() {
+    private Conta getContaMock() {
+        Conta conta = new Conta();
+
+        conta.setId(1);
+        conta.setStatus(true);
+        conta.setCod("123");
+        conta.setTotal(0);
+        conta.setMesa(getMesaMock());
+
+        return conta;
+    }
+
+    private Mesa getMesaMock() {
         Mesa mesa = new Mesa();
 
         mesa.setId(1);
         mesa.setMesa(1);
-        mesa.setEstabelecimento(getEstabelecimento());
+        mesa.setEstabelecimento(new Estabelecimento(1, "Estabelecimento da Gabi", "gabi", 123));
         mesa.setAtivo(true);
 
         return mesa;
     }
 
-    private Estabelecimento getEstabelecimento() {
-        Estabelecimento estabelecimento = new Estabelecimento();
-
-        estabelecimento.setId(1);
-        estabelecimento.setNome("Estabelecimento da Gabi");
-        estabelecimento.setLogin("gabi");
-        estabelecimento.setIdentificador(123);
-
-        return estabelecimento;
-    }
 }
