@@ -32,9 +32,6 @@ class PedidoServiceImplTest {
     private PedidoRepository pedidoRepository;
 
     @Mock
-    private MesaRepository mesaRepository;
-
-    @Mock
     private ContaService contaService;
 
     @Mock

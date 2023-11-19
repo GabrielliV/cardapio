@@ -58,7 +58,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         produtoResponse.setCategoria(categoria);
 
-        produtoRepository.save(produtoResponse);
+        produtoResponse = produtoRepository.save(produtoResponse);
 
         return produtoResponse.getId();
     }
@@ -85,7 +85,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         produtoResponse.setCategoria(categoria);
 
-        produtoRepository.save(produtoResponse);
+        produtoResponse = produtoRepository.save(produtoResponse);
 
         return produtoResponse.getId();
     }
