@@ -13,4 +13,5 @@ public interface MesaRepository extends JpaRepository<Mesa, Integer> {
     List<Mesa> getMesaByEstabelecimentoIdOrderByMesaAsc(int estabelecimentoId);
 
     Mesa getMesaById(int mesaId);
+
 }

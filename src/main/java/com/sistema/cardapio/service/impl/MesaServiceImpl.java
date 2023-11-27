@@ -1,6 +1,7 @@
 package com.sistema.cardapio.service.impl;
 
 import com.sistema.cardapio.dto.MesasDto;
+import com.sistema.cardapio.exception.MesaExistenteException;
 import com.sistema.cardapio.model.Conta;
 import com.sistema.cardapio.model.Estabelecimento;
 import com.sistema.cardapio.model.Mesa;
@@ -64,14 +65,20 @@ public class MesaServiceImpl implements MesaService {
 
     @Override
     public void criaMesa(int estabelecimentoId, int mesa) {
-        Mesa mesaNova = new Mesa();
-        Estabelecimento estabelecimento = estabelecimentoRepository.getEstabelecimentoById(estabelecimentoId);
+        Mesa procuraMesa = mesaRepository.getMesaByEstabelecimentoIdAndMesaOrderByMesa(estabelecimentoId, mesa);
 
-        mesaNova.setMesa(mesa);
-        mesaNova.setEstabelecimento(estabelecimento);
-        mesaNova.setAtivo(true);
+        if (procuraMesa == null) {
+            Mesa mesaNova = new Mesa();
+            Estabelecimento estabelecimento = estabelecimentoRepository.getEstabelecimentoById(estabelecimentoId);
 
-        mesaRepository.save(mesaNova);
+            mesaNova.setMesa(mesa);
+            mesaNova.setEstabelecimento(estabelecimento);
+            mesaNova.setAtivo(true);
+
+            mesaRepository.save(mesaNova);
+        } else {
+           throw new MesaExistenteException("A mesa já existe no estabelecimento.");
+        }
     }
 
     @Override

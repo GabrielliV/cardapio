@@ -19,6 +19,7 @@ public interface ItemPedidoRepository extends JpaRepository<ItemPedido, Integer>
     @Query("SELECT NEW com.sistema.cardapio.dto.RelatorioPratosDto(p.nome, COUNT(ip.qtde)) " +
             "FROM Produto p " +
             "INNER JOIN ItemPedido ip ON ip.produto.id = p.id " +
+            "WHERE p.categoria.id = 1 " +
             "GROUP BY p.nome " +
             "ORDER BY COUNT(ip.qtde) DESC")
     Page<RelatorioPratosDto> pratosMaisSolicitados(Pageable pageable);
@@ -26,6 +27,7 @@ public interface ItemPedidoRepository extends JpaRepository<ItemPedido, Integer>
     @Query("SELECT NEW com.sistema.cardapio.dto.RelatorioPratosDto(p.nome, COUNT(ip.qtde)) " +
             "FROM Produto p " +
             "INNER JOIN ItemPedido ip ON ip.produto.id = p.id " +
+            "WHERE p.categoria.id = 1 " +
             "GROUP BY p.nome " +
             "ORDER BY COUNT(ip.qtde) ASC")
     Page<RelatorioPratosDto> pratosMenosSolicitados(Pageable pageable);
