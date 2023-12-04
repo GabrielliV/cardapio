@@ -14,6 +14,7 @@ import java.util.List;
 public class PedidoDto {
 
     private int id;
+    private int mesa;
     private String observacao;
     private LocalDateTime hora_pedido;
     private LocalDateTime hora_entrega;

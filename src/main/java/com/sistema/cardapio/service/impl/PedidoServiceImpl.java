@@ -42,6 +42,7 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido pedido = pedidoRepository.findPedidoById(id);
         List<ItemPedido> itensPedido = itemPedidoService.itemPedidoPorPedido(id);
 
+        pedidoDto.setMesa(pedido.getConta().getMesa().getMesa());
         pedidoDto.setId(pedido.getId());
         pedidoDto.setObservacao(pedido.getObservacao());
         pedidoDto.setHora_pedido(pedido.getHora_pedido());

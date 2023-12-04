@@ -1,7 +1,6 @@
 package com.sistema.cardapio.service.impl;
 
 import com.sistema.cardapio.dto.MesasDto;
-import com.sistema.cardapio.exception.MesaExistenteException;
 import com.sistema.cardapio.model.Conta;
 import com.sistema.cardapio.model.Estabelecimento;
 import com.sistema.cardapio.model.Mesa;
@@ -77,7 +76,7 @@ public class MesaServiceImpl implements MesaService {
 
             mesaRepository.save(mesaNova);
         } else {
-           throw new MesaExistenteException("A mesa já existe no estabelecimento.");
+            throw new RuntimeException("A mesa já existe no estabelecimento.");
         }
     }
 
